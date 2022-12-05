@@ -6,8 +6,6 @@ from users.models import Follow, User
 
 
 class UsersCreateSerializer(UserCreateSerializer):
-    """Сериализатор для обработки запросов на создание пользователя.
-    Валидирует создание пользователя с юзернеймом 'me'."""
     class Meta:
         model = User
         fields = (
@@ -29,7 +27,6 @@ class UsersCreateSerializer(UserCreateSerializer):
 
 
 class UsersSerializer(UserSerializer):
-    """Сериализатор для отображения информации о пользователе."""
     is_subscribed = SerializerMethodField(read_only=True)
 
     class Meta:
@@ -51,7 +48,6 @@ class UsersSerializer(UserSerializer):
 
 
 class FollowSerializer(UsersSerializer):
-    """Сериализатор для добавления/удаления подписки, просмотра подписок."""
     recipes = SerializerMethodField(read_only=True)
     recipes_count = SerializerMethodField(read_only=True)
 
