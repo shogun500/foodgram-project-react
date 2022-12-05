@@ -13,7 +13,7 @@ class IngredientFilter(FilterSet):
         fields = ('name',)
 
     def filter_name(self, queryset, name, value):
-        """Метод возвращает кверисет с заданным именем ингредиента."""
+        """Метод возвращает сет с заданным именем ингредиента."""
         return queryset.filter(
             Q(name__istartswith=value) | Q(name__icontains=value)
         ).annotate(

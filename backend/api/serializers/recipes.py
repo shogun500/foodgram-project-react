@@ -11,7 +11,7 @@ from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
 
 
 class Base64ImageField(serializers.ImageField):
-    """Кастомное поле для кодирования изображения в base64."""
+    """Кастомное поле кодирования изображения в base64."""
     def to_internal_value(self, data):
         if isinstance(data, str) and data.startswith('data:image'):
             format, imgstr = data.split(';base64,')
@@ -22,7 +22,7 @@ class Base64ImageField(serializers.ImageField):
 
 
 class TagSerializer(serializers.ModelSerializer):
-    """Сериализатор для работы с тегами."""
+    """Сериализатор работы с тегами."""
     class Meta:
         model = Tag
         fields = '__all__'
@@ -30,14 +30,14 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class IngredientSerializer(serializers.ModelSerializer):
-    """Сериализатор для работы с ингредиентами."""
+    """Сериализатор работы с ингредиентами."""
     class Meta:
         model = Ingredient
         fields = ('id', 'name', 'measurement_unit')
 
 
 class RecipeIngredientSerializer(serializers.ModelSerializer):
-    """Сериализатор для подробного описания ингредиентов в рецепте."""
+    """Сериализатор описания ингредиентов в рецепте."""
     name = serializers.CharField(
         source='ingredient.name', read_only=True)
     id = serializers.PrimaryKeyRelatedField(
@@ -51,7 +51,7 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
 
 
 class AddIngredientSerializer(serializers.ModelSerializer):
-    """Сериализатор для добавления ингредиента при создании рецепта."""
+    """Сериализатор добавления ингредиента при создании рецепта."""
     id = serializers.PrimaryKeyRelatedField(
         queryset=Ingredient.objects.all(),
         source='ingredient')
@@ -62,8 +62,6 @@ class AddIngredientSerializer(serializers.ModelSerializer):
 
 
 class RecipeSerializer(serializers.ModelSerializer):
-    """Сериализатор создания рецепта.
-    Валидирует ингредиенты ответ возвращает GetRecipeSerializer."""
     author = UsersSerializer(read_only=True)
     image = Base64ImageField()
     ingredients = AddIngredientSerializer(many=True)
@@ -122,7 +120,7 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 
 class GetRecipeSerializer(serializers.ModelSerializer):
-    """Сериализатор для отображения полной информации о рецепте."""
+    """Сериализатор отображения полной информации о рецепте."""
     tags = TagSerializer(many=True)
     author = UsersSerializer(read_only=True)
     ingredients = RecipeIngredientSerializer(read_only=True, many=True,
@@ -150,7 +148,7 @@ class GetRecipeSerializer(serializers.ModelSerializer):
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
-    """Сериализатор добавления/удаления рецепта в избранное."""
+    """Сериализатор добавления/удаления рецепта избранного."""
     class Meta:
         model = Favorite
         fields = ('user', 'recipe')
@@ -159,7 +157,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
         user, recipe = data.get('user'), data.get('recipe')
         if self.Meta.model.objects.filter(user=user, recipe=recipe).exists():
             raise ValidationError(
-                {'error': 'Этот рецепт уже добавлен'}
+                {'error': 'Рецепт уже был добавлен'}
             )
         return data
 
@@ -169,7 +167,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
 
 
 class ShoppingCartSerializer(FavoriteSerializer):
-    """Сериализатор добавления/удаления рецепта в список покупок."""
+    """Сериализатор добавления/удаления рецепта списка покупок."""
     class Meta(FavoriteSerializer.Meta):
         model = ShoppingCart
 
