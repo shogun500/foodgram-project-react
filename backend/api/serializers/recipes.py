@@ -71,18 +71,40 @@ class RecipeSerializer(serializers.ModelSerializer):
         fields = ('id', 'tags', 'author', 'ingredients',
                   'name', 'image', 'text', 'cooking_time')
 
-    def validate(self, data):
-        list_ingr = [item['ingredient'] for item in data['ingredients']]
-        all_ingredients, distinct_ingredients = (
-            len(list_ingr), len(set(list_ingr)))
 
-        if all_ingredients != distinct_ingredients:
+    def validate(self, data):
+        ingredients = self.initial_data.get('ingredients')
+        ingredients_list = []
+        for ingredient in ingredients:
+            ingredient_id = ingredient['id']
+            if ingredient_id in ingredients_list:
+                raise serializers.ValidationError(
+                    'Ингредиенты должны быть уникальными!'
+                )
+            ingredients_list.append(ingredient_id)
+            amount = ingredient['amount']
+            if int(amount) <= 0:
+                raise ValidationError(
+                    'Количество ингредиента должно быть больше нуля!'
+                )
+        tags = self.initial_data.get('tags')
+        if not tags:
+            raise ValidationError('Выберите хотя бы один тег!')
+        tags_list = []
+        for tag in tags:
+            if tag in tags_list:
+                raise ValidationError(
+                    'Теги должны быть уникальными!'
+                )
+            tags_list.append(tag)
+        cooking_time = self.initial_data.get('cooking_time')
+        if int(cooking_time) <= 0:
             raise ValidationError(
-                {'error': 'Ингредиенты должны быть уникальными'}
+                'Время приготовления не может быть меньше 1 мин.'
             )
         return data
 
-    def get_ingredients(self, recipe, ingredients):
+    def create_ingredients(self, recipe, ingredients):
         RecipeIngredient.objects.bulk_create(
             RecipeIngredient(
                 recipe=recipe,
@@ -98,7 +120,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         recipe = Recipe.objects.create(author=user,
                                        **validated_data)
         recipe.tags.set(tags)
-        self.get_ingredients(recipe, ingredients)
+        self.create_ingredients(recipe, ingredients)
 
         return recipe
 
@@ -110,7 +132,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         RecipeIngredient.objects.filter(recipe=instance).delete()
 
         instance.tags.set(tags)
-        self.get_ingredients(instance, ingredients)
+        self.create_ingredients(instance, ingredients)
 
         return super().update(instance, validated_data)
 

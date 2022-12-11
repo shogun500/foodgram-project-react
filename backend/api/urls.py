@@ -5,10 +5,10 @@ from api.views.recipes import IngredientViewSet, RecipeViewSet, TagViewSet
 from api.views.users import UsersViewSet
 
 router = DefaultRouter()
-router.register(r'users', UsersViewSet)
-router.register(r'ingredients', IngredientViewSet)
-router.register(r'recipes', RecipeViewSet)
-router.register(r'tags', TagViewSet)
+router.register('users', UsersViewSet)
+router.register('ingredients', IngredientViewSet)
+router.register('recipes', RecipeViewSet)
+router.register('tags', TagViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('auth/', include('djoser.urls.authtoken')),
