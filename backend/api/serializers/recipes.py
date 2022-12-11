@@ -178,9 +178,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
     def validate(self, data):
         user, recipe = data.get('user'), data.get('recipe')
         if self.Meta.model.objects.filter(user=user, recipe=recipe).exists():
-            raise ValidationError(
-                {'error': 'Рецепт уже был добавлен'}
-            )
+            raise ValidationError('Рецепт уже был добавлен')
         return data
 
     def to_representation(self, instance):
