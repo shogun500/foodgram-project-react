@@ -9,8 +9,8 @@ services:
     env_file:
       - ./.env
   backend:
-    #image: sergapav/foodgram_project:latest
-    build: ../backend
+    image: sergapav/backend:latest
+    #build: ../backend
     restart: always
     depends_on:
       - db
@@ -22,8 +22,8 @@ services:
       - media_volume:/app/media/
 
   frontend:
-    #image: sergapav/frontend:latest
-    build: ../frontend
+    image: sergapav/frontend:latest
+    #build: ../frontend
     volumes:
       - ../frontend:/app/result_build/
     depends_on:
