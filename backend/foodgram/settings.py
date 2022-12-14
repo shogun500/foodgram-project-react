@@ -4,11 +4,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
-def get_list_allowed(allowed: str) -> list:
-    return [host.strip() for host in allowed.split(',') if host.strip()]
-
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.getenv('SECRET_KEY', default='your_secret_key')
@@ -22,11 +17,6 @@ ALLOWED_HOSTS = [
     '84.201.154.23',
     'backend',
 ]
-
-#ALLOWED_HOSTS = get_list_allowed(
-#    os.getenv('ALLOWED_HOSTS', default='*')
-#)
-
 
 # Application definition
 
