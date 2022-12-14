@@ -44,7 +44,10 @@ docker-compose exec web python manage.py createsuperuser
 ```
 docker-compose exec backend python3 manage.py load_data
 ```
-
+### Доступ к ресурсы
+```
+Проект доступен по адресу: http://http://84.201.154.23/recipes
+```
 
 ## Используемые технологии
 ![Alt-Текст](https://img.shields.io/badge/python-3.8-blue)
