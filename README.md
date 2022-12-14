@@ -1,10 +1,20 @@
 # Проект Foodgram, "Продуктовый помощник"
 
-![main_workflow](https://github.com/shogun500/foodgram-project-react/actions/workflows/main.yml/badge.svg)
+![foodgram_workflow](https://github.com/shogun500/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
 
 
-# Как запустить проект:
-## Создайте и заполните по образцу .env-файл
+## Как запустить проект:
+
+##
+- Склонировать репозиторий:
+
+```
+bash
+git clone <название репозитория>
+```
+##
+
+### Создайте в .env-файл в папке infra и заполните по образцу.
 ```
 DB_ENGINE=<...>
 DB_NAME=<...>
@@ -14,32 +24,31 @@ DB_HOST=<...>
 DB_PORT=<...>
 SECRET_KEY=<...>
 ```
-## Собрать и запустить контейнер с помощью Docker-compose
+### Собрать и запустить контейнер с помощью Docker-compose
 ```
 docker-compose up --build
 ```
-## Выполнить миграции через Docker-compose
+### Выполнить миграции через Docker-compose
 ```
-docker-compose exec web python manage.py migrate --noinput
+docker-compose exec web python manage.py migrate
 ```
-## Собрать через Docker-compose статику
+### Собрать через Docker-compose статику
 ```
 docker-compose exec web python manage.py collectstatic --no-input
 ```
-## Создать суперпользователя
+### Создать суперпользователя
 ```
 docker-compose exec web python manage.py createsuperuser
 ```
-## Заполнить базу начальными данными
+### Заполнить базу начальными данными
 ```
-docker cp fixtures.json <CONTAINER_ID>:/app/fixtures.json
-docker-compose exec web python manage.py loaddata fixtures.json
+docker-compose exec backend python3 manage.py load_data
 ```
 
 
 ## Используемые технологии
 ![Alt-Текст](https://img.shields.io/badge/python-3.8-blue)
-![Alt-Текст](https://img.shields.io/badge/django-2.2.16-blue)
+![Alt-Текст](https://img.shields.io/badge/django-2.2.20-blue)
 ![Alt-Текст](https://img.shields.io/badge/djangorestframework-3.12.4-blue)
 ![Alt-Текст](https://img.shields.io/badge/docker-20.10.16-blue)
 ![Alt-Текст](https://img.shields.io/badge/nginx-1.21.3-blue)
