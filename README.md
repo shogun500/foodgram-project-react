@@ -45,8 +45,13 @@ docker-compose exec web python manage.py createsuperuser
 docker-compose exec backend python3 manage.py load_data
 ```
 ### Доступ к проекту
+
+<a href=http://84.201.154.23/recipes>84.201.154.23/recipes</a>
+
 ```
-<http://http://84.201.154.23/recipes>
+Учетная запись:
+testadmin@test.test
+TqS15122022
 ```
 
 ## Используемые технологии
