@@ -46,7 +46,7 @@ docker-compose exec backend python3 manage.py load_data
 ```
 ### Доступ к проекту
 ```
-<http://http://84.201.154.23/recipes>
+<a href=http://84.201.154.23/recipes>84.201.154.23/recipes</a>
 
 Учетная запись:
 testadmin@test.test
